@@ -1,6 +1,7 @@
 %% Prelab 7 
 
-% Delay Spread Model
+%% Delay Spread Model
+
 FFT_Size = 32;
 N = 1000;
 
@@ -33,14 +34,22 @@ subplot(211);
 L = length(Rx_Data); NFFT = 2^nextpow2(L);
 Y = abs(fft(Rx_Data,NFFT)/NFFT);
 f_d = 2*pi/NFFT:2*pi/NFFT:2*pi;
+
 plot(f_d,db(2*Y));
-xlabel('Frequency (Hz)');ylabel('|Y(f)|');title('total received QPSK ISI Channel spectrum');xlim([0 2*pi]);
+xlabel('Frequency (Hz)');
+ylabel('|Y(f)|');
+title('Received QPSK ISI Channel spectrum');
+xlim([0 2*pi]);
+
 subplot(212);
 L = length(Channel_Data_Conv); NFFT = 2^nextpow2(L);
 Y = abs(fft(Tx_Data,NFFT)/NFFT);
 f_d = 2*pi/NFFT:2*pi/NFFT:2*pi;
 plot(f_d,db(2*Y));
-xlabel('Frequency (Hz)');ylabel('|Y(f)|');title('total transmitted QPSK spectrum');xlim([0 2*pi]);
+xlabel('Frequency (Hz)');
+ylabel('|Y(f)|');
+title('Transmitted QPSK spectrum');
+xlim([0 2*pi]);
 
 % Without CP, constellation plot
 sub1_Tx = QPSK_Data(1:FFT_Size:end); sub1_Rx = Received_Data(1:FFT_Size:end);
@@ -51,20 +60,26 @@ h = scatterplot(sub1_Rx,1,0,'g.');
 hold on;
 scatterplot(sub1_Tx,1,0,'k*',h);
 hold off;
-legend('distorted constellation','orignial QPSK constellation');xlim([-3 3]);ylim([-3 +3]);
-title({['Scatter plot of the 1st subcarrier constellation of Transmitted Data'];['without CP']});
+legend('Distorted Constellation','Orignial QPSK constellation');
+xlim([-3 3]);
+ylim([-3 +3]);
+title({['Plot of 1st subcarrier constellation of Transmitted Data'];['without CP']});
 h = scatterplot(sub15_Rx,1,0,'g.');
 hold on;
 scatterplot(sub15_Tx,1,0,'k*',h);
 hold off;
-legend('distorted constellation','orignial QPSK constellation');xlim([-3 3]);ylim([-3 +3]);
-title({['Scatter plot of the 15th subcarrier constellation of Transmitted Data'];['without CP']});
+legend('Distorted Constellation','Orignial QPSK constellation');
+xlim([-3 3]);
+ylim([-3 +3]);
+title({['Plot of the 15th subcarrier constellation of Transmitted Data'];['without CP']});
 h = scatterplot(sub26_Rx,1,0,'g.');
 hold on;
 scatterplot(sub26_Tx,1,0,'k*',h);
 hold off;
-title({['Scatter plot of the 26th subcarrier constellation of Transmitted Data'];['without CP']});
-legend('distorted constellation','orignial QPSK constellation');xlim([-3 3]);ylim([-3 +3]);
+title({['Plot of 26th subcarrier constellation of Transmitted Data'];['without CP']});
+legend('Distorted Constellation','Orignial QPSK constellation');
+xlim([-3 3]);
+ylim([-3 +3]);
 
 % With CP
 L = 16;
@@ -80,46 +95,56 @@ CP_Demod_Data = 1/sqrt(FFT_Size)*fft(CP_Rx_Data);
 CP_Received_Data = reshape(CP_Demod_Data,1,[]);
 
 % With CP, constellation plot of subcarriers compared to AWGN Channel
-CP_sub2_Tx = QPSK_Data(2:FFT_Size:end); CP_sub2_Rx = CP_Received_Data(2:FFT_Size:end);
-CP_sub15_Tx = QPSK_Data(15:FFT_Size:end);CP_sub15_Rx = CP_Received_Data(15:FFT_Size:end);
-CP_sub31_Tx = QPSK_Data(31:FFT_Size:end);CP_sub31_Rx = CP_Received_Data(31:FFT_Size:end);
+CP_sub2_Tx = QPSK_Data(2:FFT_Size:end);
+CP_sub2_Rx = CP_Received_Data(2:FFT_Size:end);
+
+CP_sub15_Tx = QPSK_Data(15:FFT_Size:end);
+CP_sub15_Rx = CP_Received_Data(15:FFT_Size:end);
+
+CP_sub31_Tx = QPSK_Data(31:FFT_Size:end);
+CP_sub31_Rx = CP_Received_Data(31:FFT_Size:end);
 
 h = scatterplot(CP_Received_Data,1,0,'g.');
 hold on;
 scatterplot(QPSK_Data,1,0,'k*',h);
 hold off;
-title({['Scatter plot of the total constellation of Transmitted Data'];['with CP']});
+title({['Plot of total constellation of Transmitted Data'];['with CP']});
 legend('CP received constellation','orignial QPSK constellation');
 
 h = scatterplot(CP_sub2_Rx,1,0,'g.');
 hold on;
 scatterplot(CP_sub2_Tx,1,0,'k*',h);
 hold off;
-title({['Scatter plot of the 2nd subcarrier constellation of Transmitted Data'];['with CP']});
+title({['Plot of 2nd subcarrier constellation of Transmitted Data'];['with CP']});
 legend('CP received constellation','orignial QPSK constellation');
-xlim([-2.5 2.5]);ylim([-2.5 +2.5]);
+xlim([-2.5 2.5]);
+ylim([-2.5 +2.5]);
 h = scatterplot(CP_sub15_Rx,1,0,'g.');
 hold on;
 scatterplot(CP_sub15_Tx,1,0,'k*',h);
 hold off;
-title({['Scatter plot of the 15th subcarrier constellation of Transmitted Data'];['with CP']});
+title({['Plot of 15th subcarrier constellation of Transmitted Data'];['with CP']});
 legend('CP received constellation','orignial QPSK constellation');
-xlim([-2.5 2.5]);ylim([-2.5 +2.5]);
+xlim([-2.5 2.5]);
+ylim([-2.5 +2.5]);
 h = scatterplot(CP_sub31_Rx,1,0,'g.');
 hold on;
 scatterplot(CP_sub31_Tx,1,0,'k*',h);
 hold off;
-title({['Scatter plot of the 31st subcarrier constellation of Transmitted Data'];['with CP']});
-legend('CP received constellation','orignial QPSK constellation');xlim([-2.5 2.5]);ylim([-2.5 +2.5]);
+title({['Plot of 31st subcarrier constellation of Transmitted Data'];['with CP']});
+legend('CP received constellation','orignial QPSK constellation');
+xlim([-2.5 2.5]);
+ylim([-2.5 +2.5]);
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%% Channel Estimation and Equilization
 
-%Channel Estimation and Equilization
 load 'ofdm_pkt.mat';
 
-% create ofdm bpsk training sequence
+% OFDM BPSK Training Sequence
 nfft = 64;
 ofdm_mask = [0 sign(1:26) (27:37)*0 sign(38:63)];
 ofdm_idx = [ 1:26 38:63 ] + 1;
@@ -130,9 +155,9 @@ T = ofdm_mask;
 T(ofdm_idx) = s;
 t = ifft(T) * sqrt(nfft * (nfft/nCars) );
 
-% apply the cross-correlation
-r = c_corr(y,t);
-rr = abs(c_corr(y,t)) > (0.75*nfft);
+% Apply cross-correlation
+r = xcorr(y,t);
+rr = abs(xcorr(y,t)) > (0.75*nfft);
 corr_idx = find(rr == 1);
 
 nGI = 32;
@@ -145,7 +170,7 @@ nTR = nTr1+nTr2;
 n1 = corr_idx(1);
 n2 = corr_idx(2);
 
-% using indices n1 and n2, calculate the frequency offset
+% Freq Offset using n1 and n2
 tt = y( (1:128) + (n1-1) );
 t1 = tt(1:64);
 t2 = tt(65:end);
@@ -157,36 +182,34 @@ fco = (1/2/pi/64) * angle( rr );
 rr2 = conj(t1) .* t2;
 fco1 = (1/2/pi/64) * angle( rr2 ); 
 
-% channel estimation
+% Channel Estimation
 T1 = (1/sqrt(nfft))*fft(t1 .* exp(1i*2*pi*f_est*(0:63))) * sqrt(nCars/nfft);
 T2 = (1/sqrt(nfft))*fft(t2 .* exp(1i*2*pi*f_est*(64:127))) * sqrt(nCars/nfft);
 
 % freq domain channel est averaging
 H = T .* (T1+T2)/2;
 
-% apply frequency offset to the entire packet now
+% Frequency offset to entire packet
 L = length(y(n1:end));
 z = y(n1:end) .* exp(1i*2*pi*f_est*(-(64)+(0:L-1)));
 
-% find the start of the ofdm symbol
+% Start of OFDM symbol
 z = z(1+nTR+nGI:end);                              
 
-% reshape the received packet into blocks
 z_block = reshape(z, nCP+nfft, nOFDM_Symbols);
 
-% remove the cp
+% Remove CP
 z_nocp = z_block(1+nCP : end, :);
 
 % demodulate using the fft
 Z = (1/sqrt(nfft))*fft(z_nocp);
 
-% create the freq domain equalizer G
+% Freq Domain Equalizer
 Heq = H;
 Heq(Heq==0)=1;
 G = diag( 1 ./ Heq );
 
-% reshape and equalize into a serial stream
 Z = reshape( G*Z, 1, nfft*nOFDM_Symbols);
 
-% plot the constellation of all subchannels
+% Constellation Plot of all subchannels
 scatterplot(Z);
